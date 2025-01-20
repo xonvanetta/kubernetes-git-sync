@@ -9,6 +9,7 @@ import (
 
 const (
 	Enabled           = "kubernetes-git-sync/enabled"
+	TargetNamespace   = "kubernetes-git-sync/target-namespace"
 	SopsAgeRecipients = "kubernetes-git-sync/sops-age-recipients"
 	GitSecret         = "kubernetes-git-sync/git-secret"
 	GitFilepath       = "kubernetes-git-sync/git-filepath" //TODO add multiple paths
@@ -24,6 +25,10 @@ type ObjectMeta interface {
 
 func IsEnabled(object ObjectMeta) bool {
 	return object.GetAnnotations()[Enabled] == "true"
+}
+
+func GetTargetNamespace(object ObjectMeta) string {
+	return object.GetAnnotations()[TargetNamespace]
 }
 
 func HasAgeRecipients(object ObjectMeta) bool {

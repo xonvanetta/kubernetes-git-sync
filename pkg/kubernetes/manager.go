@@ -56,12 +56,14 @@ func (c *controller) Reconcile(ctx context.Context, req reconcile.Request) (reco
 		return reconcile.Result{}, nil
 	}
 
+	if namespace := annotations.GetTargetNamespace(secret); namespace != "" {
+		secret.SetNamespace(namespace)
+	}
+
 	yaml, err := printYaml(secret)
 	if err != nil {
 		return reconcile.Result{}, err
 	}
-
-	secret.GetObjectKind()
 
 	if annotations.HasAgeRecipients(secret) {
 		ageRecipients := annotations.GetAgeRecipients(secret)
